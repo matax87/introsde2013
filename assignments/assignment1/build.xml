@@ -6,7 +6,7 @@
 	<property name="src.dir" value="src" />
 	<property name="xjc.package" value="generated" />
 	<!-- Change the value of this property based on the path where you put JAXB-->
-	<property name="jaxb.home" value="/opt/jaxb-ri-2.2.7" />
+	<property name="jaxb.home" value="/Library/jaxb" />
 	<property name="schemafile" value="people.xsd" />
 	
 	<target name="init">
@@ -21,10 +21,6 @@
 		<echo message="${build.dir} has been deleted" />
 		<delete dir="${src.dir}/${xjc.package}" />
 		<echo message="${src.dir}/${xjc.package} has been deleted" />
-		<delete file="people.xml" />
-		<echo message="people.xml has been deleted" />
-		<delete file="people2.xml" />
-		<echo message="people2.xml has been deleted" />
 	</target>
 	
 	<target name="generate.xml" depends="init, compile">

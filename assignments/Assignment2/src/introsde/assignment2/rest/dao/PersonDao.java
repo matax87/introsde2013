@@ -150,23 +150,23 @@ public class PersonDao {
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				person = processRow(rs);
-			}
-			List<MeasureType> list = MeasureTypeDao.getInstance().getAll();
-	    	HealthProfile hp = new HealthProfile();
-	    	for (MeasureType item : list) {
-	    		String measureName = item.getName();
-	    		Measure measure = MeasureDao.getInstance().getLatest(personId, measureName);
-	    		if (measure != null) {
-	    			if ("height".equals(measureName)) {
-	    				hp.setHeight(Double.parseDouble(measure.getValue()));
-	    			} else if ("weight".equals(measureName)) {    		
-	    				hp.setWeight(Double.parseDouble(measure.getValue()));
-	    			} else if ("steps".equals(measureName)) {    		
-	    				hp.setSteps(Integer.parseInt(measure.getValue()));
-	    			}	    
-	    		}
-	    	}
-	    	person.setHealthProfile(hp);
+				List<MeasureType> list = MeasureTypeDao.getInstance().getAll();
+		    	HealthProfile hp = new HealthProfile();
+		    	for (MeasureType item : list) {
+		    		String measureName = item.getName();
+		    		Measure measure = MeasureDao.getInstance().getLatest(personId, measureName);
+		    		if (measure != null) {
+		    			if ("height".equals(measureName)) {
+		    				hp.setHeight(Double.parseDouble(measure.getValue()));
+		    			} else if ("weight".equals(measureName)) {    		
+		    				hp.setWeight(Double.parseDouble(measure.getValue()));
+		    			} else if ("steps".equals(measureName)) {    		
+		    				hp.setSteps(Integer.parseInt(measure.getValue()));
+		    			}	    
+		    		}
+		    	}
+		    	person.setHealthProfile(hp);
+			}			
 		} catch (SQLException e) {
 			System.err.println(e.toString());
 		} finally {
@@ -198,6 +198,24 @@ public class PersonDao {
             rs.next();
             // Update the personId in the returned object. This is important this value must be returned to the client.
             personId = rs.getLong(1);
+            HealthProfile hp = person.getHealthProfile();
+            if (hp != null) {
+            	if (hp.getHeight() != null) {
+            		Measure height = new Measure();
+            		height.setValue(" " + hp.getHeight());
+            		MeasureDao.getInstance().create(personId, "height", height);
+            	}
+            	if (hp.getWeight() != null) {
+            		Measure weight = new Measure();
+            		weight.setValue(" " + hp.getWeight());
+            		MeasureDao.getInstance().create(personId, "weight", weight);
+            	}
+            	if (hp.getSteps() != null) {
+            		Measure steps = new Measure();
+            		steps.setValue(" " + hp.getSteps());
+            		MeasureDao.getInstance().create(personId, "steps", steps);
+            	}
+            }
 		} catch (SQLException e) {
 			System.err.println(e.toString());
 		} finally {

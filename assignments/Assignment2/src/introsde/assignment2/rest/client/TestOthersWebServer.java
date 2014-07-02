@@ -42,7 +42,7 @@ public class TestOthersWebServer {
 			hostname = "localhost";
 		}
 
-		String baseUrl = protocol + hostname + ":" + port + "/";
+		String baseUrl = protocol + "test.lifeparticipation.org/introsde2013/" + port + "/";
 		return baseUrl;
 	}
 
@@ -71,7 +71,7 @@ public class TestOthersWebServer {
 		System.out.println();
 				
 		if (csvSupportedMeasure != null) {
-			List<String> measureTypeList = Arrays.asList(csvSupportedMeasure.trim().split(","));
+			List<String> measureTypeList = Arrays.asList(csvSupportedMeasure.trim().split(", "));
 			
 			// Get measure
 			if (!measureTypeList.isEmpty()) {
@@ -91,6 +91,11 @@ public class TestOthersWebServer {
 			    System.out.println();
 			}
 		}
+		
+		// Delete person
+	    test.getPersonClient().delete(1l);
+	    System.out.println("DELETED PERSON WITH ID = " + 1);
+	    System.out.println();
 	}
 
 }
